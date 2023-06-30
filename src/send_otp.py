@@ -26,7 +26,7 @@ class OtpSender:
 
     def __add_otp(self, otp: int, email: str) -> None:
         otp_item: dict = {'otp': otp, 'TTL': Decimal(
-            time() + 30), 'email': email}
+            time() + 60), 'email': email}
 
         self.__otp.put_item(Item=otp_item)
 
@@ -72,7 +72,7 @@ class OtpSender:
                 return True
 
     def __call__(self, event, context) -> dict:
-        email: str = json.loads(event['body'])['email']  # get email from event
+        email: str = event['queryStringParameters']['email']  # get email from event
 
         # check opt expiration
         if not self.__is_expired(email=email):
