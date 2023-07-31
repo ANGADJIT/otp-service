@@ -1,4 +1,5 @@
 # OTP Service
+![service-otp-workflow](https://github.com/ANGADJIT/otp-service/assets/67195682/61e1b8ab-7eb2-4986-b307-5d5c5e03ade7)
 
 This repository contains the code for an OTP (One-Time Password) service implemented using Python and deployed on AWS Cloud. The service utilizes AWS Lambda functions for sending and verifying OTPs, and it is mapped to API Gateways for easy integration and access. Additionally, the OTPs are stored in DynamoDB, with the usage of Time-to-Live (TTL) to automatically delete expired data.
 
