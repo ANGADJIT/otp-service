@@ -4,6 +4,7 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from os import environ
 from time import time
+from json import loads
 
 
 class OtpVerifier:
@@ -20,6 +21,7 @@ class OtpVerifier:
         OTP_VERIFIED: int = 200
         OTP_EXPIRED: int = 401
         OTP_INVALID: int = 403
+        OTP_NOT_FOUND: int = 404
 
         response = self.__otp.query(
             KeyConditionExpression=Key('email').eq(email)
@@ -35,11 +37,14 @@ class OtpVerifier:
             else:
                 return OTP_INVALID
 
+        else:
+            return OTP_NOT_FOUND
+
     def __call__(self, event, context) -> Any:
-        body: dict = event['body']
+        body: dict = loads(event['body'])
 
         status_code: int = self.__verify_otp(
-            email=body['email'], otp=body['otp'])
+            email=body.get('email'), otp=body.get('otp'))
 
         message: str = ''
 
